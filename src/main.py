@@ -29,7 +29,6 @@ def start_flask_app():
     @app.route("/")
     def respond():
         return("Oi tudo bom? :3")
-    print("/" + TOKEN)
     @app.route("/" + TOKEN,methods=["POST", "GET"])
     def respond_API():
         update_json = request.json
@@ -37,7 +36,6 @@ def start_flask_app():
             fn.process_message(update_json["message"])
             return "ok"
         return "Ué vc n é a API do Telegram. SAI DAQUI VEEEEEEI"
-    print("Iniciando apliacação")
     app.run(host='0.0.0.0', port=PORT)
 
 
