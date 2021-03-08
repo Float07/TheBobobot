@@ -27,13 +27,11 @@ def post_api(method, param):
 
 
 def start_webhook():
-    print(WEBHOOK_URL)
     method = "setWebhook"
     param = {"url": WEBHOOK_URL}
     keep_trying = True
     while keep_trying:
         response = post_api(method,param).json()
-        print(response)
         if response["ok"]:
             keep_trying = False
         else:
