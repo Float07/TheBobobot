@@ -32,4 +32,8 @@ def set_user_group(user_id, group_id):
     conn.commit()
     conn.close()
     cur.close()
+
+#Placeholder language getter. Someday it will allow for groups to select what language they would like the bot to use
+def get_group_language(group_id):
+    return "pt-br"
      

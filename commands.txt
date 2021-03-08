@@ -1,7 +1,6 @@
 anon - Envia mensagens ou imagens anonimamente (é necessário usar /register antes).
 spotted - Envia uma mensagem anônima, mas dá uma chance para as pessoas acertarem que você que enviou.
 svote - Vota em quem você acha que enviou uma mensagem.
-sfinish - Força o encerramento de um spotted, antes do tempo esgotar.
 register - Use no grupo no qual você quer que suas mensagens anônimas sejam enviadas.
 ban - Inicia votação para banir alguém.
 explode - Explode.

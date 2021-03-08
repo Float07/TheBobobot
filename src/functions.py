@@ -1,6 +1,7 @@
 import database_handler
 import reddit_api as reddit
 import telegram_api as telegram
+from string_resources import _strings_ as _strings_
 import json
 import time
 import os
@@ -61,6 +62,23 @@ def process_message(request):
         send_anon_document(oMessage)
     return Response(status=200)
         
+
+
+def feat_help(oMessage):
+    message_split = oMessage.get_message_text().split(' ', 1)
+    help_message = ""
+    group_id = oMessage.get_chat_id()
+    language = database_handler.get_group_language(group_id)
+    if len(message_split) <= 1:
+        help_message = "help"
+    else:
+        help_message = message_split[1]
+        if(help_message not in _strings_[language]["help"]):
+            help_message = "default"
+    param = {"chat_id": group_id,
+            "text": _strings_[language]["help"][help_message],
+            "parse_mode": "HTML"}
+    return telegram.send_message(param)
 
 
 
@@ -171,7 +189,7 @@ def reddit_random_submission(oMessage):
 
     if len(splitMessage) == 1:
         message = "Utilize '/reddit <Nome do Subreddit>' para pedir por um post aleatório de um subreddit" \
-                  "\Exemplos:"
+                  "Exemplos:"
         for sub in SUPPORTED_SUBREDDITS:
             message = message + "\n-" + "/reddit " + sub
         oMessage.reply(message)
@@ -248,13 +266,6 @@ def spotted_update():
     currentTime = time.clock_gettime(time.CLOCK_MONOTONIC)
     if currentTime - SPOTTED_LIST[0]["time_sent"] > MAX_SPOTTED_TIME:
         finish_spotted()
-
-
-def spotted_force_finish(oMessage):
-    if len(SPOTTED_LIST) == 0:
-        oMessage.reply("Não há spotteds em andamento :P")
-        return
-    finish_spotted()
 
 
 def add_spotted_user(spottedUser):
@@ -377,8 +388,8 @@ textCommandsList = {"/explode": explode,
                     "/reddit": reddit_random_submission,
                     "/spotted": spotted_send_message,
                     "/svote": spotted_vote,
-                    "/sfinish": spotted_force_finish,
-                    "/ping": response_pong}
+                    "/ping": response_pong,
+                    "/help": feat_help}
 photoCommandsList = {"/anon": send_anon_image,
                     "/spotted": spotted_send_image}
 videoCommandsList = {"/anon": send_anon_video,
