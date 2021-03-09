@@ -1,7 +1,7 @@
 import database_handler
 import reddit_api as reddit
 import telegram_api as telegram
-from string_resources import _strings_ as _strings_
+import strings_data as str_data
 import json
 import time
 import os
@@ -73,10 +73,8 @@ def feat_help(oMessage):
         help_message = "help"
     else:
         help_message = message_split[1]
-        if(help_message not in _strings_[language]["help"]):
-            help_message = "default"
     param = {"chat_id": group_id,
-            "text": _strings_[language]["help"][help_message],
+            "text": str_data.get_string([language, "help", help_message]),
             "parse_mode": "HTML"}
     return telegram.send_message(param)
 
