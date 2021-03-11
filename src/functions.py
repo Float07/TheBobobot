@@ -8,13 +8,6 @@ import os
 from flask import Flask, request, Response
 
 
-#Subreddits suportados
-SUPPORTED_SUBREDDITS = ["blursedimages",
-                        "aww",
-                        "memes",
-                        "wholesomememes",
-                        "eyebleach",
-                        "programmerhumor"]
 
 #Configuração spotteds
 SPOTTED_LIST = []
@@ -202,10 +195,7 @@ def reddit_random_submission(oMessage):
     splitMessage = oMessage.get_message_text().split(' ', 1)
 
     if len(splitMessage) == 1:
-        message = "Utilize '/reddit <Nome do Subreddit>' para pedir por um post aleatório de um subreddit" \
-                  "Exemplos:"
-        for sub in SUPPORTED_SUBREDDITS:
-            message = message + "\n-" + "/reddit " + sub
+        message = "Utilize '/reddit <Nome do Subreddit>' para pedir por um post aleatório de um subreddit"
         oMessage.reply(message)
     else:
         try:
