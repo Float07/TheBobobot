@@ -20,6 +20,9 @@ SUPPORTED_SUBREDDITS = ["blursedimages",
 SPOTTED_LIST = []
 MAX_SPOTTED_TIME = 180
 
+#If True will print messages objecs
+DEBUG_TOGGLE = False
+
 
 def start_bot():
     telegram.start_webhook()
@@ -28,6 +31,11 @@ def start_bot():
 def process_message(request):
     oMessage = telegram.Message(request)
     message = oMessage.message
+
+    #prints if debug is toggled on
+    if DEBUG_TOGGLE:
+        print(message)
+
     if "text" in message:
         messageSplit = (message["text"]).split(' ', 1)
         command = (messageSplit[0]).split('@', 1)
@@ -78,6 +86,14 @@ def feat_help(oMessage):
             "parse_mode": "HTML"}
     return telegram.send_message(param)
 
+
+def toggle_debug(oMessage):
+    global DEBUG_TOGGLE
+    DEBUG_TOGGLE = not DEBUG_TOGGLE
+    if DEBUG_TOGGLE:
+        print("Debug now on!")
+    else:
+        print("debug now off!")
 
 
 def send_anon_document(oMessage):
@@ -387,7 +403,8 @@ textCommandsList = {"/explode": explode,
                     "/spotted": spotted_send_message,
                     "/svote": spotted_vote,
                     "/ping": response_pong,
-                    "/help": feat_help}
+                    "/help": feat_help,
+                    "/debugtgl": toggle_debug}
 photoCommandsList = {"/anon": send_anon_image,
                     "/spotted": spotted_send_image}
 videoCommandsList = {"/anon": send_anon_video,
