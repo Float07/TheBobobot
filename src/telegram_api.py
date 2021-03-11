@@ -70,6 +70,12 @@ class Message:
     def __init__(self, message):
         self.message = message
 
+    def get_entities(self):
+        if "entities" in self.message:
+            return self.message["entities"]
+        else:
+            return []
+
     def get_message_animation(self):
         if "animation" in self.message:
             return self.message["animation"]["file_id"]
@@ -126,12 +132,16 @@ class Message:
         if "first_name" in self.message["from"]:
             return self.message["from"]["first_name"]
         else:
-            return "ERROR: NO FIRST NAME FOUND"
+            return "<ERROR: NO FIRST NAME FOUND>"
 
-    def get_message_text(self):
+    #If delete_command=True, this function will only return 
+    # the text after the first bot command in the message
+    def get_message_text(self, delete_command=False):
         if "text" in self.message:
+            if delete_command:
+                return self.message["text"][self.get_entities()[0]["length"] + 1:]
             return self.message["text"]
-        return "ERROR: NO TEXT FOUND"
+        return "<ERROR: NO TEXT FOUND>"
 
     def reply(self, replyText, replyMessage=True, private=False):
         replyMessageId = 0
